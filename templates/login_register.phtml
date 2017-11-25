@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!-- title change by js --></title>
+</head>
+<body>
+
+    <form action="/login" method="post">
+        <input type="email" name="email">
+        <input type="password" name="password">
+        <input type="submit">
+    </form>
+
+    <form action="/register" method="post">
+        <input type="email" name="email">
+        <input type="password" name="password">
+        <input type="text" name="name">
+        <input type="submit">
+    </form>
+
+    <?php
+    if(isset($error))
+        echo $error;
+    ?>
+
+</body>
+</html>

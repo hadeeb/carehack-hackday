@@ -1,168 +1,172 @@
-<!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width,initial-scale=1">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 
-        <link rel="stylesheet" href="https://bootswatch.com/4/superhero/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://bootswatch.com/4/superhero/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
-        <title>Home Page</title>
-        <style>
-            a.loginbtn{
-                color: #fff;
-                cursor: default;
-                text-decoration: none;
-            }
-        </style>
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href="#">Appname</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+    <title>Home Page</title>
+    <style>
+        a.loginbtn{
+            color: #fff;
+            cursor: default;
+            text-decoration: none;
+        }
+        .search-container{
+            padding-top: 120px;
+            align-items:center;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="/">Find Your Gym</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+
+
+            <ul class="navbar-nav ml-auto my-2 my-sm-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile"><?php if (isset($name))echo "Profile"; ?></a>
+                </li>
+
+            </ul>
+
+
+            <?php if (isset($name)) : ?>
+
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+                    <a class="loginbtn" href="/logout">Logout</a>
                 </button>
-
-                <div class="collapse navbar-collapse" id="navbarColor01">
-
-
-                    <ul class="navbar-nav mr-auto my-2 my-sm-0">
-
-                    </ul>
+            <?php else :?>
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+                    <a class="loginbtn" href="/login">Login/Register</a>
+                </button>
+            <?php endif; ?>
 
 
-                    <?php if (isset($name)) : ?>
-                        <?php echo $name ?>
+        </div>
+    </div>
 
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-                            <a class="loginbtn" href="/logout">Logout</a>
-                        </button>
-                    <?php else :?>
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-                            <a class="loginbtn" href="/login">Login/Register</a>
-                        </button>
-                    <?php endif; ?>
+</nav>
+<div style="text-align: center;padding-top: 50px">
+    <p>
+        <i><h6>"train like an athlete, eat like a nutritionist</h6><br>
+            <h6>sleep like a baby, win like a champion."</h6></i>
 
+    </p>
+</div>
+<div class="search-container">
+    <div class="col-sm-12 col-md-6 offset-md-3">
+        <div style="width=100%;text-align: center;">
+            <label class="heading_text"  >
+                <h3 >Find your gym</h3>
+            </label>
+        </div>
+        <div style="text-align: center;">
+            <form action="/list" method="post" onsubmit="return search();">
+                <div class="side-collapse-container">
+                    <input id="pac-input" class="form-control" type="text" placeholder="Enter a location,eg:city,town">
+                    <button id="search_btn" class="btn btn-primary" type="submit"     style="margin-top: 20px">Search</button>
+                    <div id="map"></div>
 
                 </div>
-            </div>
+                <input type="text" style="display: none" name="latitude" id="lat">
+                <input type="text" style="display: none" name="longitude" id="long">
 
-        </nav>
-    <div class="container">
-        <div class="col-sm-12 col-md-6 offset-md-3">
-            <div>
-                <label>
-                    Find your gym
-                </label>
-            </div>
-            <div>
-                <form action="/list" method="post" onsubmit="search();">
-                    <div class="side-collapse-container">
-                        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-                        <div id="map"></div>
-                    </div>
-                    <input type="text" style="display: none" name="latitude" id="lat">
-                    <input type="text" style="display: none" name="longitude" id="long">
-                    <button id="search_btn" type="submit">Search</button>
-                </form>
-            </div>
-
+            </form>
         </div>
 
     </div>
 
+</div>
 
-    </body>
+
+</body>
 
 
-    <script>
-        var x,y;
-        function search() {
-            if(isFinite(x)&&isFinite(y))
-                return true;
-            else {
-
-                alert("Location not set");
-                return false;
-            }
+<script>
+    var x,y;
+    function search() {
+        if(isFinite(x)&&isFinite(y))
+            return true;
+        else {
+            alert("Location not set");
+            return false;
         }
-        function initAutocomplete() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: -33.8688, lng: 151.2195},
-                zoom: 13,
-                mapTypeId: 'roadmap'
+    }
+    function initAutocomplete() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: -33.8688, lng: 151.2195},
+            zoom: 13,
+            mapTypeId: 'roadmap'
+        });
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls.push(input);
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+            searchBox.setBounds(map.getBounds());
+        });
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+            var places = searchBox.getPlaces();
+            if (places.length == 0) {
+                return;
+            }
+            // Clear out the old markers.
+            markers.forEach(function(marker) {
+                marker.setMap(null);
             });
-
-            // Create the search box and link it to the UI element.
-            var input = document.getElementById('pac-input');
-            var searchBox = new google.maps.places.SearchBox(input);
-            map.controls.push(input);
-
-            // Bias the SearchBox results towards current map's viewport.
-            map.addListener('bounds_changed', function() {
-                searchBox.setBounds(map.getBounds());
-            });
-
-            var markers = [];
-            // Listen for the event fired when the user selects a prediction and retrieve
-            // more details for that place.
-            searchBox.addListener('places_changed', function() {
-                var places = searchBox.getPlaces();
-
-                if (places.length == 0) {
+            markers = [];
+            // For each place, get the icon, name and location.
+            var bounds = new google.maps.LatLngBounds();
+            places.forEach(function(place) {
+                if (!place.geometry) {
+                    console.log("Returned place contains no geometry");
                     return;
                 }
-
-                // Clear out the old markers.
-                markers.forEach(function(marker) {
-                    marker.setMap(null);
-                });
-                markers = [];
-
-                // For each place, get the icon, name and location.
-                var bounds = new google.maps.LatLngBounds();
-                places.forEach(function(place) {
-                    if (!place.geometry) {
-                        console.log("Returned place contains no geometry");
-                        return;
-                    }
-                    var icon = {
-                        url: place.icon,
-                        size: new google.maps.Size(71, 71),
-                        origin: new google.maps.Point(0, 0),
-                        anchor: new google.maps.Point(17, 34),
-                        scaledSize: new google.maps.Size(25, 25)
-                    };
-
-                    // Create a marker for each place.
-                    markers.push(new google.maps.Marker({
-                        map: map,
-                        icon: icon,
-                        title: place.name,
-                        position: place.geometry.location
-                    }));
-
-                    if (place.geometry.viewport) {
-                        // Only geocodes have viewport.
-                        bounds.union(place.geometry.viewport);
-                    } else {
-                        bounds.extend(place.geometry.location);
-                    }
-                });
-                map.fitBounds(bounds);
-                x = (bounds.b.b+bounds.b.f)/2;
-                y = (bounds.f.b+bounds.f.f)/2;
-                document.getElementById('lat').value = x;
-                document.getElementById('long').value = y;
-                console.log(x);
+                var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                };
+                // Create a marker for each place.
+                markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                }));
+                if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                } else {
+                    bounds.extend(place.geometry.location);
+                }
             });
-        }
-
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUDhC1Edx-S5oUQmr8u9m7rr0ul5bXG3M&libraries=places&callback=initAutocomplete"
-            async defer></script>
+            map.fitBounds(bounds);
+            x = (bounds.b.b+bounds.b.f)/2;
+            y = (bounds.f.b+bounds.f.f)/2;
+            document.getElementById('lat').value = x;
+            document.getElementById('long').value = y;
+            console.log(x);
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUDhC1Edx-S5oUQmr8u9m7rr0ul5bXG3M&libraries=places&callback=initAutocomplete"
+        async defer></script>
 </html>

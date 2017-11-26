@@ -17,6 +17,9 @@
             cursor: default;
             text-decoration: none;
         }
+        .list_img{
+            width: 80%;
+        }
     </style>
 </head>
 <body>
@@ -55,18 +58,11 @@
 <div class="container">
     <div id="gym_list" class="col-sm-10 offset-sm-1">
         <?php if(isset($list)):?>
-            <div>
                 <?php foreach ($list as $gym): ?>
-                    <div class="col-sm-12"
-                         data-toggle="modal"
-                         data-target="#MyModal"
-                         data-id="<?php echo $gym['id'];?>"
-                         data-img="bigimg"
-                         data-dist="<?php echo $gym['dist'];?>"
-                         data-name="<?php echo $gym['name']; ?>" >
-                        <img src="../assets/img/logo256.png" alt="small_img"/>
-                        <br>
+                    <div class="col-sm-10 col-md-5 offset-md-3" style="padding: 15px;">
+                        <img src="/logo" class="list_img" alt="small_img"/><br>
                         <?php echo $gym['name'].'<br>Class : '.$gym['class']; ?>
+                        <br><a href="/book/<?php echo $gym['id'];?>"><h4>Take a seat</h4></a>
                     </div>
                 <?php endforeach; ?>
             </div>

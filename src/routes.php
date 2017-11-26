@@ -33,23 +33,24 @@ $app->get('/login',$login = function (Request $request, Response $response) {
 $app->get('/register',$login);
 
 $app->get('/profile',function (Request $request, Response $response) {
-    $values = array('name'=>'Ankith');
-    return $this->renderer->render($response, 'profile.phtml',$values);
-});
 
-$app->get('/test',function (Request $request, Response $response) {
-    $test = "15.03652";
-    var_dump($test);
-    $test = (float)$test;
-    $test = $test+2;
-    var_dump($test);
+    if(!isset($_SESSION['userid'])) {
+        return $response->withRedirect('/login');
+    }
+    $id = $_SESSION['userid'];
+    $name = getUser($id);
+    $user = Login::find($id);
+    $email = $user['email'];
+    $expires = Profile::find($id);
+    $expires = $expires['expires'];
+    $values = array('name'=>$name,'email'=>$email,'validity'=>$expires);
+    return $this->renderer->render($response, 'profile.phtml',$values);
 });
 
 $app->any('/logout',function(Request $request,Response $response) {
     session_destroy();
     return $response->withRedirect('/');
 });
-
 
 // Form submissions
 $app->post('/login',function (Request $request,Response $response) {
@@ -112,6 +113,22 @@ $app->any('/list',function (Request $request,Response $response) {
 $app->get('/add/[id]',function (Request $request,Response $response,array $args) {
     return $response;
 });
+
+$app->get('/book/{id}', function(Request $request,Response $response,array $args) {
+    if(!isset($_SESSION['userid'])) {
+        return $response->withRedirect('/login');
+    }
+    $userid = $_SESSION['userid'];
+    $book = new Booking();
+    $book->userid = $userid;
+    $book->centreid = $args['id'];
+    $date = new DateTime('tomorrow');
+    $book->date = $date->format('Y-m-d');
+    $res = $book->save();
+
+    if($res)
+        return $this->renderer->render($response, 'book_success.phtml');
+});
 // User Check-in
 
 $app->post('/checkin',function (Request $request,Response $response) {
@@ -123,4 +140,11 @@ $app->post('/checkin',function (Request $request,Response $response) {
         return $response->withStatus(403)->write('User auth error');
     else
         return $response->withStatus(200);
+});
+
+$app->any('/logo',function(Request $request,Response $response) {
+    $fname = __DIR__ . '/../assets/img/logo256.png';
+    $image = file_get_contents($fname);
+    $response->write($image);
+    return $response->withHeader('Content-Type', FILEINFO_MIME_TYPE);
 });

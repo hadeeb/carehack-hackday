@@ -16,6 +16,10 @@
             cursor: default;
             text-decoration: none;
         }
+        .search-container{
+            padding-top: 120px;
+            align-items:center;
+        }
     </style>
 </head>
 <body>
@@ -28,34 +32,22 @@
 
         <div class="collapse navbar-collapse" id="navbarColor01">
 
-            <ul class="navbar-nav mr-auto my-2 my-sm-0">
+
+            <ul class="navbar-nav ml-auto my-2 my-sm-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">Profile</a>
+                </li>
             </ul>
-
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">
-                    <a class="loginbtn" href="/logout">Logout</a>
-                </button>
-
         </div>
     </div>
-
 </nav>
-
 <div class="container">
-    <div class="content">
-        
-            <div>
-                <label>Name : <?php echo $name;?></label>
-            </div>
-            <div>
-                <label>E-mail : <?php echo $email;?></label>
-            </div>
-            <div>
-                <label>Valid till : <?php if(isset($validity)) echo $validity;else echo "NIL";?></label>
-            </div>
-            <div>
-                <button type="button">Renew</button>
-            </div>
-
+    <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        Booking Added Successfully
+    </div>
+    <div class="col-sm-12" style="text-align: center">
+        <button><a href="/">Go to Home</a> </button>
     </div>
 </div>
 </body>

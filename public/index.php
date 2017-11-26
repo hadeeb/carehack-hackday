@@ -40,6 +40,9 @@ require __DIR__ . '/../src/functions.php';
 // Models
 require __DIR__ . '/../src/models/Login.php';
 require __DIR__ . '/../src/models/Profile.php';
+require __DIR__ . '/../src/models/Centre.php';
+require __DIR__ . '/../src/models/Checkin.php';
+require __DIR__ . '/../src/models/Booking.php';
 
 // Run app
 $app->run();

@@ -1,27 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title><!-- title change by js --></title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://bootswatch.com/4/superhero/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+    <title>Login/Register</title>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">Appname</a>
+        </div>
+    </nav>
 
-    <form action="/login" method="post">
-        <input type="email" name="email">
-        <input type="password" name="password">
-        <input type="submit">
-    </form>
+    <div class="container"  style="margin-top:10px; ">
+        <div class="col-sm-12 col-md-6 offset-md-3">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#register">Register</a>
+                </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active show" id="login">
+                    <form action="/login" method="post">
+                        <div class="form-group">
+                            <label for="LoginEmail">Email address</label>
+                            <input name="email" type="email" class="form-control" id="LoginEmail" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="LoginPassword">Password</label>
+                            <input name="password" type="password" class="form-control" id="LoginPassword" placeholder="Password">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="register">
+                    <form action="/register" method="post">
+                        <div class="form-group">
+                            <label for="RegisterName">Name</label>
+                            <input name="name" type="text" class="form-control" id="RegisterName" placeholder="Enter name">
+                        </div>
+                        <div class="form-group">
+                            <label for="RegisterEmail">Email address</label>
+                            <input name="email" type="email" class="form-control" id="RegisterEmail" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="RegisterPassword">Password</label>
+                            <input name="password" type="password" class="form-control" id="RegisterPassword" placeholder="Password">
+                        </div>
+                        <!--div class="form-group">
+                            <label for="RegisterPasswordC">Confirm password</label>
+                            <input name="password" type="password" class="form-control" id="RegisterPasswordC" placeholder="Password">
+                        </div-->
+                        <button type="submit" class="btn btn-primary">Register</button>
 
-    <form action="/register" method="post">
-        <input type="email" name="email">
-        <input type="password" name="password">
-        <input type="text" name="name">
-        <input type="submit">
-    </form>
-
+                    </form>
+                </div>
+            </div>
+        </div>
     <?php
     if(isset($error))
-        echo $error;
+        echo '<script>alert('.$error.');</script>';
     ?>
 
 </body>

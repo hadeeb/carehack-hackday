@@ -50,3 +50,37 @@ function register(string $email, string $passkey,string $name) {
     $profile->save();
     return $user->id;
 }
+
+function nearby($latitude,$longitude) {
+    $latitude = (float)$latitude;
+    $longitude = (float)$longitude;
+    $centres = Centre::whereBetween('loc_latt',[$latitude-100.025,$latitude+100.025])
+                        ->whereBetween('loc_long',[$longitude-100.025,$longitude+100.025])
+                        ->get();
+
+    //$centres = Centre::all();
+    return $centres;
+}
+
+// Validations
+function validate_centre($cred) {
+    return true;
+}
+
+function validate_user($userid,$centreid,$date,$token) {
+    $today = date('d-m-Y');
+    if($date!=$today)
+        return false;
+    $res = Booking::where('userid',$userid)
+                    ->where('centreid',$centreid)
+                    ->get();
+    if($res){
+        $checkin = new Checkin();
+        $checkin->userid = $userid;
+        $checkin->centreid = $centreid;
+        if($checkin->save())
+            return true;
+    }
+    return false;
+
+}

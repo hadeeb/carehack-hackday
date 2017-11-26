@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://bootswatch.com/4/superhero/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <title>Home Page</title>
+    <style>
+        a.loginbtn{
+            color: #fff;
+            cursor: default;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">Appname</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor01">
+
+
+            <ul class="navbar-nav mr-auto my-2 my-sm-0">
+
+            </ul>
+
+
+            <?php if (isset($name)) : ?>
+                <?php echo $name ?>
+
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+                    <a class="loginbtn" href="/logout">Logout</a>
+                </button>
+            <?php else :?>
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">
+                    <a class="loginbtn" href="/login">Login/Register</a>
+                </button>
+            <?php endif; ?>
+
+
+        </div>
+    </div>
+
+</nav>
+<div class="container">
+    <div id="gym_list" class="col-sm-10 offset-sm-1">
+        <?php if(isset($list)):?>
+            <div>
+                <?php foreach ($list as $gym): ?>
+                    <div class="col-sm-12"
+                         data-toggle="modal"
+                         data-target="#MyModal"
+                         data-id="<?php echo $gym['id'];?>"
+                         data-img="bigimg"
+                         data-dist="<?php echo $gym['dist'];?>"
+                         data-name="<?php echo $gym['name']; ?>" >
+                        <img src="../assets/img/logo256.png" alt="small_img"/>
+                        <br>
+                        <?php echo $gym['name'].'<br>Class : '.$gym['class']; ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+</body>
+<!-- modals -->
+<div class="modal fade" id="MyModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <img alt = "bigimg"/>
+                    </div>
+                    <div class="form-group">
+                        <label id="" class="form-control-label">Message:</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary"><a class="loginbtn">Book(or something)</a></button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#MyModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var id = button.data('id'); // Extract info from data-* attributes
+        var img = button.data('img');
+        var name = button.data('name');
+        var modal = $(this);
+        modal.find('.modal-title').text(name);
+        //modal.find('.modal-body img').src(img);
+        modal.find('.loginbtn').attr('href','/add/'+id);
+    });
+    function test(id){
+        alert("test"+id);
+    }
+
+</script>
+</html>

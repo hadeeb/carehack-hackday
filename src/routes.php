@@ -21,6 +21,8 @@ $app->get('/', function (Request $request,Response $response) {
         if($name)
             return $this->renderer->render($response, 'index.phtml',array('name'=>$name));
     }
+    session_destroy();
+    session_start();
     return $this->renderer->render($response, 'index.phtml');
 
 });
@@ -36,11 +38,11 @@ $app->get('/profile',function (Request $request, Response $response) {
 });
 
 $app->get('/test',function (Request $request, Response $response) {
-    $values = login('tvankith@gmail.com','passkey');
-    if(!$values)
-        return $this->renderer->render($response, 'profile.phtml',array('test'=>"Login fail"));
-    else
-        return $this->renderer->render($response, 'profile.phtml',array('test'=>"Login OK"));
+    $test = "15.03652";
+    var_dump($test);
+    $test = (float)$test;
+    $test = $test+2;
+    var_dump($test);
 });
 
 $app->any('/logout',function(Request $request,Response $response) {
@@ -71,4 +73,54 @@ $app->post('/register',function (Request $request,Response $response) {
        $_SESSION['userid'] = $res;
        return $response->withRedirect('/');
    }
+});
+
+// Nearby centres
+
+$app->any('/list',function (Request $request,Response $response) {
+
+    $args = $request->getParsedBody();
+    if(!$args)
+        return $response->withRedirect('/');
+
+    $res = nearby($args['latitude'],$args['longitude']);
+
+    //var_dump($res);
+
+    if(!$res)
+        return $response->withRedirect('/');
+
+    //$response = $response->withRedirect('/');
+
+    if(isset($_SESSION['userid'])) {
+        $name = getUser($_SESSION['userid']);
+        if($name)
+            return $this->renderer->render($response, 'list.phtml',array('name'=>$name,'list'=>$res));
+    }
+    session_destroy();
+    session_start();
+    return $this->renderer->render($response, 'list.phtml',array('list'=>$res));
+
+
+
+
+
+});
+
+// Book
+
+$app->get('/add/[id]',function (Request $request,Response $response,array $args) {
+    return $response;
+});
+// User Check-in
+
+$app->post('/checkin',function (Request $request,Response $response) {
+    $cred = $request->getParsedBody();
+    if(!validate_centre($cred['centre_cred']))
+        return $response->withStatus(403)->write('Centre auth error');
+
+    if(!validate_user($cred['user_cred'],$cred['centre_cred'],$cred['date'],$cred['token']))
+        return $response->withStatus(403)->write('User auth error');
+    else
+        return $response->withStatus(200);
 });
